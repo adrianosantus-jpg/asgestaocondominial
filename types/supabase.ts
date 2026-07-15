@@ -366,10 +366,12 @@ export type Database = {
           id: string;
           condominio_id: string;
           nome: string;
+          pessoa_contato: string | null;
           telefone: string | null;
           whatsapp: string | null;
           email: string | null;
           especialidade: string | null;
+          cnpj: string | null;
           contrato_url: string | null;
           data_vencimento_contrato: string | null;
           avaliacao: number | null;
@@ -382,10 +384,12 @@ export type Database = {
           id?: string;
           condominio_id?: string;
           nome: string;
+          pessoa_contato?: string | null;
           telefone?: string | null;
           whatsapp?: string | null;
           email?: string | null;
           especialidade?: string | null;
+          cnpj?: string | null;
           contrato_url?: string | null;
           data_vencimento_contrato?: string | null;
           avaliacao?: number | null;

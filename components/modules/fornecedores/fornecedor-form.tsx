@@ -64,10 +64,12 @@ export function FornecedorForm({
         fornecedor
           ? {
               nome: fornecedor.nome,
+              pessoa_contato: fornecedor.pessoa_contato ?? "",
               telefone: fornecedor.telefone ?? "",
               whatsapp: fornecedor.whatsapp ?? "",
               email: fornecedor.email ?? "",
               especialidade: fornecedor.especialidade ?? "",
+              cnpj: fornecedor.cnpj ?? "",
               data_vencimento_contrato: fornecedor.data_vencimento_contrato ?? "",
               avaliacao: fornecedor.avaliacao,
               observacoes: fornecedor.observacoes ?? "",
@@ -128,6 +130,17 @@ export function FornecedorForm({
             <Input id="nome" {...register("nome")} />
             <FieldError errors={[errors.nome]} />
           </Field>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field>
+              <FieldLabel htmlFor="pessoa_contato">Pessoa de contato</FieldLabel>
+              <Input id="pessoa_contato" {...register("pessoa_contato")} />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="cnpj">CNPJ</FieldLabel>
+              <Input id="cnpj" placeholder="00.000.000/0001-00" {...register("cnpj")} />
+            </Field>
+          </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field>

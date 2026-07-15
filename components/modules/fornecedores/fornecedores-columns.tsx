@@ -38,11 +38,18 @@ export function buildFornecedoresColumns(actions: {
       header: "Contato",
       cell: ({ row }) => (
         <div className="text-sm">
-          {row.original.whatsapp && <div>{row.original.whatsapp}</div>}
-          {row.original.email && (
-            <div className="text-xs text-muted-foreground">{row.original.email}</div>
-          )}
+          {row.original.pessoa_contato && <div>{row.original.pessoa_contato}</div>}
+          <div className="text-xs text-muted-foreground">
+            {row.original.telefone ?? row.original.whatsapp ?? row.original.email ?? "—"}
+          </div>
         </div>
+      ),
+    },
+    {
+      accessorKey: "cnpj",
+      header: "CNPJ",
+      cell: ({ row }) => (
+        <span className="text-sm text-muted-foreground">{row.original.cnpj ?? "—"}</span>
       ),
     },
     {

@@ -4,16 +4,18 @@ import type { FornecedorInput } from "@/lib/validations/fornecedor";
 import { useProfile } from "@/lib/hooks/use-profile";
 
 const FORNECEDOR_SELECT =
-  "id, condominio_id, nome, telefone, whatsapp, email, especialidade, contrato_url, data_vencimento_contrato, avaliacao, observacoes, ativo, created_at";
+  "id, condominio_id, nome, pessoa_contato, telefone, whatsapp, email, especialidade, cnpj, contrato_url, data_vencimento_contrato, avaliacao, observacoes, ativo, created_at";
 
 export type FornecedorRow = {
   id: string;
   condominio_id: string;
   nome: string;
+  pessoa_contato: string | null;
   telefone: string | null;
   whatsapp: string | null;
   email: string | null;
   especialidade: string | null;
+  cnpj: string | null;
   contrato_url: string | null;
   data_vencimento_contrato: string | null;
   avaliacao: number | null;
