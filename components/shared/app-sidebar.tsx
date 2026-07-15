@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Building2 } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -28,9 +28,13 @@ export function AppSidebar() {
               size="lg"
               render={
                 <Link href="/dashboard">
-                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                    <Building2 className="size-4" />
-                  </div>
+                  <Image
+                    src="/logo.jpg"
+                    alt="AS Gestão Condominial"
+                    width={32}
+                    height={32}
+                    className="aspect-square size-8 rounded-lg object-cover"
+                  />
                   <div className="flex flex-col gap-0.5 leading-none">
                     <span className="font-semibold">AS Gestão</span>
                     <span className="text-xs text-muted-foreground">

@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Building2, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { loginSchema, type LoginInput } from "@/lib/validations/auth";
 import { Button } from "@/components/ui/button";
@@ -15,7 +16,7 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { AuthCard } from "@/components/shared/auth-card";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -45,58 +46,61 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-svh items-center justify-center bg-muted/40 p-4">
-      <Card className="w-full max-w-sm">
-        <CardHeader className="items-center text-center">
-          <div className="flex size-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Building2 className="size-5" />
-          </div>
-          <div>
-            <h1 className="text-lg font-semibold">AS Gestão Condominial</h1>
-            <p className="text-sm text-muted-foreground">
-              Entre com sua conta para continuar
-            </p>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <FieldGroup>
-              <Field data-invalid={!!errors.email}>
-                <FieldLabel htmlFor="email">E-mail</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  autoComplete="email"
-                  placeholder="voce@exemplo.com"
-                  {...register("email")}
-                />
-                <FieldError errors={[errors.email]} />
-              </Field>
+    <AuthCard
+      description="Entre com sua conta para continuar"
+      footer={
+        <span>
+          Não tem conta?{" "}
+          <Link href="/cadastro" className="text-primary hover:underline">
+            Criar conta
+          </Link>
+        </span>
+      }
+    >
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FieldGroup>
+          <Field data-invalid={!!errors.email}>
+            <FieldLabel htmlFor="email">E-mail</FieldLabel>
+            <Input
+              id="email"
+              type="email"
+              autoComplete="email"
+              placeholder="voce@exemplo.com"
+              {...register("email")}
+            />
+            <FieldError errors={[errors.email]} />
+          </Field>
 
-              <Field data-invalid={!!errors.password}>
-                <FieldLabel htmlFor="password">Senha</FieldLabel>
-                <Input
-                  id="password"
-                  type="password"
-                  autoComplete="current-password"
-                  placeholder="••••••••"
-                  {...register("password")}
-                />
-                <FieldError errors={[errors.password]} />
-              </Field>
+          <Field data-invalid={!!errors.password}>
+            <div className="flex items-center justify-between">
+              <FieldLabel htmlFor="password">Senha</FieldLabel>
+              <Link
+                href="/esqueci-senha"
+                className="text-xs text-muted-foreground hover:text-primary hover:underline"
+              >
+                Esqueci minha senha
+              </Link>
+            </div>
+            <Input
+              id="password"
+              type="password"
+              autoComplete="current-password"
+              placeholder="••••••••"
+              {...register("password")}
+            />
+            <FieldError errors={[errors.password]} />
+          </Field>
 
-              {serverError && (
-                <p className="text-sm text-destructive">{serverError}</p>
-              )}
+          {serverError && (
+            <p className="text-sm text-destructive">{serverError}</p>
+          )}
 
-              <Button type="submit" disabled={isSubmitting} className="w-full">
-                {isSubmitting && <Loader2 className="animate-spin" />}
-                Entrar
-              </Button>
-            </FieldGroup>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+          <Button type="submit" disabled={isSubmitting} className="w-full">
+            {isSubmitting && <Loader2 className="animate-spin" />}
+            Entrar
+          </Button>
+        </FieldGroup>
+      </form>
+    </AuthCard>
   );
 }

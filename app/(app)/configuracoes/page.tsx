@@ -1,12 +1,5 @@
-import { Settings } from "lucide-react";
-import { ModulePlaceholder } from "@/components/shared/module-placeholder";
+import { ConfiguracoesPage } from "@/components/modules/configuracoes/configuracoes-page";
 
-export default function ConfiguracoesPage() {
-  return (
-    <ModulePlaceholder
-      icon={Settings}
-      title="Configurações"
-      description="Gestão de usuários e perfis chega nas próximas fases."
-    />
-  );
+export default function Page() {
+  return <ConfiguracoesPage />;
 }
