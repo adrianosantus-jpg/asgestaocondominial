@@ -11,7 +11,7 @@ import {
   type OsFormValues,
   type OsInput,
 } from "@/lib/validations/os";
-import { useCreateOs } from "@/lib/hooks/use-ordens-servico";
+import { useCreateOs, useUpdateOs, type OsRow } from "@/lib/hooks/use-ordens-servico";
 import { useEquipamentos } from "@/lib/hooks/use-equipamentos";
 import { usePlanosPreventivos } from "@/lib/hooks/use-planos-preventivos";
 import { useFornecedores } from "@/lib/hooks/use-fornecedores";
@@ -39,11 +39,15 @@ const NONE = "__none__";
 export function OsForm({
   open,
   onOpenChange,
+  os,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  os?: OsRow;
 }) {
+  const isEdit = !!os;
   const createOs = useCreateOs();
+  const updateOs = useUpdateOs();
   const { data: equipamentos } = useEquipamentos();
   const { data: planos } = usePlanosPreventivos();
   const { data: fornecedores } = useFornecedores();
@@ -62,9 +66,21 @@ export function OsForm({
 
   useEffect(() => {
     if (open) {
-      reset({ tipo: "corretiva", titulo: "", prioridade: "media" });
+      reset(
+        os
+          ? {
+              tipo: os.tipo,
+              titulo: os.titulo,
+              descricao: os.descricao ?? "",
+              equipamento_id: os.equipamento_id,
+              plano_id: os.plano_id,
+              fornecedor_id: os.fornecedor_id,
+              prioridade: os.prioridade as OsInput["prioridade"],
+            }
+          : { tipo: "corretiva", titulo: "", prioridade: "media" }
+      );
     }
-  }, [open, reset]);
+  }, [open, os, reset]);
 
   const tipo = watch("tipo");
   const prioridade = watch("prioridade");
@@ -79,11 +95,16 @@ export function OsForm({
 
   async function onSubmit(values: OsInput) {
     try {
-      const created = await createOs.mutateAsync(values);
-      toast.success(`OS ${created.numero} aberta`);
+      if (isEdit && os) {
+        await updateOs.mutateAsync({ id: os.id, input: values });
+        toast.success("OS atualizada");
+      } else {
+        const created = await createOs.mutateAsync(values);
+        toast.success(`OS ${created.numero} aberta`);
+      }
       onOpenChange(false);
     } catch (error) {
-      toast.error("Erro ao abrir OS", {
+      toast.error(isEdit ? "Erro ao atualizar OS" : "Erro ao abrir OS", {
         description: error instanceof Error ? error.message : undefined,
       });
     }
@@ -93,7 +114,7 @@ export function OsForm({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Nova Ordem de Serviço</DialogTitle>
+          <DialogTitle>{isEdit ? "Editar Ordem de Serviço" : "Nova Ordem de Serviço"}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" id="os-form">
@@ -233,7 +254,7 @@ export function OsForm({
           </Button>
           <Button type="submit" form="os-form" disabled={isSubmitting}>
             {isSubmitting && <Loader2 className="animate-spin" />}
-            Abrir OS
+            {isEdit ? "Salvar" : "Abrir OS"}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FileText, Image as ImageIcon, Loader2, Plus, Video } from "lucide-react";
+import { FileText, Image as ImageIcon, Loader2, Pencil, Plus, Video } from "lucide-react";
 import { toast } from "sonner";
 import {
   osMaterialSchema,
@@ -52,10 +52,12 @@ export function OsDetailSheet({
   open,
   onOpenChange,
   os,
+  onEdit,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   os: OsRow;
+  onEdit: () => void;
 }) {
   const updateStatus = useUpdateOsStatus();
 
@@ -63,13 +65,20 @@ export function OsDetailSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="w-full overflow-y-auto sm:max-w-lg">
         <SheetHeader>
-          <SheetTitle>
-            {os.numero} — {os.titulo}
-          </SheetTitle>
-          <SheetDescription>
-            {os.equipamentos?.nome ?? "Sem equipamento"} ·{" "}
-            {os.fornecedores?.nome ?? "Sem fornecedor"}
-          </SheetDescription>
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <SheetTitle>
+                {os.numero} — {os.titulo}
+              </SheetTitle>
+              <SheetDescription>
+                {os.equipamentos?.nome ?? "Sem equipamento"} ·{" "}
+                {os.fornecedores?.nome ?? "Sem fornecedor"}
+              </SheetDescription>
+            </div>
+            <Button variant="outline" size="sm" onClick={onEdit}>
+              <Pencil /> Editar
+            </Button>
+          </div>
         </SheetHeader>
 
         <div className="space-y-5 px-4 pb-6">

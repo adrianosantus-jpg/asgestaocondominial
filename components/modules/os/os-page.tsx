@@ -33,6 +33,7 @@ export function OsPage() {
   const [search, setSearch] = useState("");
   const [statusFiltro, setStatusFiltro] = useState("todas");
   const [formOpen, setFormOpen] = useState(false);
+  const [editingOs, setEditingOs] = useState<OsRow | undefined>();
   const [selected, setSelected] = useState<OsRow | null>(null);
 
   const columns = buildOsColumns();
@@ -54,7 +55,12 @@ export function OsPage() {
         title="Ordens de Serviço"
         description="Manutenções corretivas e preventivas em execução."
       >
-        <Button onClick={() => setFormOpen(true)}>
+        <Button
+          onClick={() => {
+            setEditingOs(undefined);
+            setFormOpen(true);
+          }}
+        >
           <Plus /> Nova OS
         </Button>
       </PageHeader>
@@ -105,13 +111,17 @@ export function OsPage() {
         />
       )}
 
-      <OsForm open={formOpen} onOpenChange={setFormOpen} />
+      <OsForm open={formOpen} onOpenChange={setFormOpen} os={editingOs} />
 
       {selectedAtualizada && (
         <OsDetailSheet
           open={!!selected}
           onOpenChange={(open) => !open && setSelected(null)}
           os={selectedAtualizada}
+          onEdit={() => {
+            setEditingOs(selectedAtualizada);
+            setFormOpen(true);
+          }}
         />
       )}
     </div>

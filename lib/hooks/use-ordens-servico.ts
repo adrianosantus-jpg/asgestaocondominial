@@ -69,6 +69,26 @@ export function useCreateOs() {
   });
 }
 
+export function useUpdateOs() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, input }: { id: string; input: OsInput }) => {
+      const supabase = createClient();
+      const { error } = await supabase
+        .from("ordens_servico")
+        .update(input)
+        .eq("id", id);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["ordens_servico"] });
+      queryClient.invalidateQueries({ queryKey: ["agenda_eventos"] });
+    },
+  });
+}
+
 export function useUpdateOsStatus() {
   const queryClient = useQueryClient();
 

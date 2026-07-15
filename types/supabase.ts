@@ -397,6 +397,37 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["fornecedores"]["Insert"]>;
         Relationships: [];
       };
+      salao_itens: {
+        Row: {
+          id: string;
+          condominio_id: string;
+          salao: string;
+          nome: string;
+          categoria: string | null;
+          quantidade: number;
+          valor_unitario: number;
+          valor_total: number;
+          observacoes: string | null;
+          ativo: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          condominio_id?: string;
+          salao: string;
+          nome: string;
+          categoria?: string | null;
+          quantidade?: number;
+          valor_unitario?: number;
+          observacoes?: string | null;
+          ativo?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["salao_itens"]["Insert"]>;
+        Relationships: [];
+      };
       ordens_servico: {
         Row: {
           id: string;

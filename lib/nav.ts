@@ -9,6 +9,7 @@ import {
   Truck,
   FileBarChart,
   Settings,
+  PartyPopper,
 } from "lucide-react";
 
 export type NavItem = {
@@ -20,6 +21,7 @@ export type NavItem = {
 export const NAV_ITEMS: NavItem[] = [
   { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { title: "Estoque", href: "/estoque", icon: Boxes },
+  { title: "Inventário Salões", href: "/inventario-saloes", icon: PartyPopper },
   { title: "Equipamentos", href: "/equipamentos", icon: Wrench },
   { title: "Manutenção", href: "/manutencao", icon: ClipboardCheck },
   { title: "Ordens de Serviço", href: "/os", icon: ClipboardList },

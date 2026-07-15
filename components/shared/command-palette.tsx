@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Boxes, ClipboardList, Truck, Wrench } from "lucide-react";
+import { Boxes, ClipboardList, PartyPopper, Truck, Wrench } from "lucide-react";
 import { useProdutos } from "@/lib/hooks/use-produtos";
 import { useEquipamentos } from "@/lib/hooks/use-equipamentos";
 import { useOrdensServico } from "@/lib/hooks/use-ordens-servico";
 import { useFornecedores } from "@/lib/hooks/use-fornecedores";
+import { useSalaoItens } from "@/lib/hooks/use-salao-itens";
 import {
   Command,
   CommandDialog,
@@ -26,6 +27,7 @@ export function CommandPalette() {
   const { data: equipamentos } = useEquipamentos();
   const { data: ordens } = useOrdensServico();
   const { data: fornecedores } = useFornecedores();
+  const { data: itensSalao } = useSalaoItens();
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -55,7 +57,7 @@ export function CommandPalette() {
       open={open}
       onOpenChange={setOpen}
       title="Busca global"
-      description="Pesquise produtos, equipamentos, OS e fornecedores"
+      description="Pesquise produtos, equipamentos, OS, fornecedores e itens dos salões"
     >
       <Command>
         <CommandInput placeholder="Buscar em todos os módulos..." />
@@ -116,6 +118,21 @@ export function CommandPalette() {
                 onSelect={() => go("/fornecedores")}
               >
                 <Truck /> {f.nome}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+
+          <CommandSeparator />
+
+          <CommandGroup heading="Inventário Salões">
+            {itensSalao?.slice(0, 30).map((item) => (
+              <CommandItem
+                key={item.id}
+                value={`${item.salao} ${item.nome}`}
+                onSelect={() => go("/inventario-saloes")}
+              >
+                <PartyPopper /> {item.nome}
+                <span className="ml-auto text-xs text-muted-foreground">{item.salao}</span>
               </CommandItem>
             ))}
           </CommandGroup>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, FileText, MoreHorizontal } from "lucide-react";
 import type { EquipamentoRow } from "@/lib/hooks/use-equipamentos";
@@ -13,6 +14,48 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
+function FotoCell({ equipamento }: { equipamento: EquipamentoRow }) {
+  const [open, setOpen] = useState(false);
+  const foto = equipamento.foto_url;
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (foto) setOpen(true);
+        }}
+        className={foto ? "cursor-zoom-in" : "cursor-default"}
+      >
+        <Avatar className="size-9 rounded-md">
+          <AvatarImage src={foto ?? undefined} className="object-cover" />
+          <AvatarFallback className="rounded-md text-xs">
+            {equipamento.nome.slice(0, 2).toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+      </button>
+
+      {foto && (
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent className="sm:max-w-lg">
+            <DialogHeader>
+              <DialogTitle>{equipamento.nome}</DialogTitle>
+            </DialogHeader>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={foto}
+              alt={equipamento.nome}
+              className="max-h-[70vh] w-full rounded-md object-contain"
+            />
+          </DialogContent>
+        </Dialog>
+      )}
+    </>
+  );
+}
 
 export function buildEquipamentosColumns(actions: {
   onEdit: (e: EquipamentoRow) => void;
@@ -23,17 +66,7 @@ export function buildEquipamentosColumns(actions: {
     {
       id: "foto",
       header: "",
-      cell: ({ row }) => (
-        <Avatar className="size-9 rounded-md">
-          <AvatarImage
-            src={row.original.foto_url ?? undefined}
-            className="object-cover"
-          />
-          <AvatarFallback className="rounded-md text-xs">
-            {row.original.nome.slice(0, 2).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
-      ),
+      cell: ({ row }) => <FotoCell equipamento={row.original} />,
     },
     {
       accessorKey: "nome",
