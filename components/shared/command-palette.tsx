@@ -129,7 +129,7 @@ export function CommandPalette() {
               <CommandItem
                 key={item.id}
                 value={`${item.salao} ${item.nome}`}
-                onSelect={() => go("/inventario-saloes")}
+                onSelect={() => go(`/inventario-saloes?salao=${encodeURIComponent(item.salao)}`)}
               >
                 <PartyPopper /> {item.nome}
                 <span className="ml-auto text-xs text-muted-foreground">{item.salao}</span>

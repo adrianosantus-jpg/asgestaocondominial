@@ -40,10 +40,12 @@ export function SalaoItemForm({
   open,
   onOpenChange,
   item,
+  defaultSalao,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   item?: SalaoItemRow;
+  defaultSalao?: string;
 }) {
   const isEdit = !!item;
   const createItem = useCreateSalaoItem();
@@ -73,10 +75,10 @@ export function SalaoItemForm({
               valor_unitario: item.valor_unitario,
               observacoes: item.observacoes ?? "",
             }
-          : { nome: "", salao: "", quantidade: 1, valor_unitario: 0 }
+          : { nome: "", salao: defaultSalao ?? "", quantidade: 1, valor_unitario: 0 }
       );
     }
-  }, [open, item, reset]);
+  }, [open, item, defaultSalao, reset]);
 
   async function onSubmit(values: SalaoItemInput) {
     try {

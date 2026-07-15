@@ -428,6 +428,26 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["salao_itens"]["Insert"]>;
         Relationships: [];
       };
+      saloes: {
+        Row: {
+          id: string;
+          condominio_id: string;
+          nome: string;
+          foto_url: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          condominio_id?: string;
+          nome: string;
+          foto_url?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["saloes"]["Insert"]>;
+        Relationships: [];
+      };
       ordens_servico: {
         Row: {
           id: string;

@@ -15,16 +15,27 @@ import {
 
 const currency = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 
-export function buildInventarioSaloesColumns(actions: {
-  onEdit: (item: SalaoItemRow) => void;
-  onDeactivate: (item: SalaoItemRow) => void;
-}): ColumnDef<SalaoItemRow>[] {
+export function buildInventarioSaloesColumns(
+  actions: {
+    onEdit: (item: SalaoItemRow) => void;
+    onDeactivate: (item: SalaoItemRow) => void;
+  },
+  options?: { showSalao?: boolean }
+): ColumnDef<SalaoItemRow>[] {
+  const showSalao = options?.showSalao ?? true;
+
   return [
-    {
-      accessorKey: "salao",
-      header: "Salão",
-      cell: ({ row }) => <Badge variant="outline">{row.original.salao}</Badge>,
-    },
+    ...(showSalao
+      ? [
+          {
+            accessorKey: "salao",
+            header: "Salão",
+            cell: ({ row }: { row: { original: SalaoItemRow } }) => (
+              <Badge variant="outline">{row.original.salao}</Badge>
+            ),
+          } as ColumnDef<SalaoItemRow>,
+        ]
+      : []),
     {
       accessorKey: "nome",
       header: "Item",
